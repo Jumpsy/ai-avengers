@@ -1,6 +1,6 @@
-# agent-swarm 🐝
+# The AI Avengers 🦸
 
-Run several AI coding CLIs **side-by-side in one tmux session** — Claude Code, Codex,
+Assemble several AI coding CLIs **side-by-side in one tmux session** — Claude Code, Codex,
 opencode, Antigravity/Gemini, Aider, whatever you have — so they can **prompt each other**,
 get **broadcast to all at once**, share **files, a feed, memory, and a clipboard**, and
 **delegate** work to whichever model is best for each task.
@@ -11,7 +11,7 @@ agent**, and it builds the whole thing for you, adapting to the CLIs you actuall
 ## Quick start
 
 ```bash
-git clone https://github.com/Jumpsy/multi-agent-cli.git
+git clone https://github.com/Jumpsy/ai-avengers.git
 cd multi-agent-cli
 ```
 
