@@ -50,12 +50,16 @@ touch "$SHARED/conversation.log" "$SHARED/clipboard"
 [ -d "$HOME/.config/opencode" ] && cp "$REPO/templates/AGENTS.md" "$HOME/.config/opencode/AGENTS.md"
 [ -d "$HOME/.codex" ] && cp "$REPO/templates/AGENTS.md" "$HOME/.codex/AGENTS.md"
 
-# 5c) install the /avengers orchestrator skill for Claude Code (the lead agent uses it)
+# 5c) install the /avengers orchestrator into EVERY agent's native command system
+# claude (Claude Code skill)
 if [ -d "$REPO/skills" ]; then
-  mkdir -p "$HOME/.claude/skills"
-  cp -R "$REPO/skills/." "$HOME/.claude/skills/"
-  echo "Installed Claude Code skill(s) to ~/.claude/skills (type /avengers in the claude pane)"
+  mkdir -p "$HOME/.claude/skills"; cp -R "$REPO/skills/." "$HOME/.claude/skills/"
 fi
+# codex (~/.codex/prompts/*.md), opencode (~/.config/opencode/command/*.md), antigravity/gemini (~/.gemini/commands/*.toml)
+[ -d "$HOME/.codex" ]          && { mkdir -p "$HOME/.codex/prompts";          cp "$REPO/commands/codex/avengers.md"      "$HOME/.codex/prompts/"; }
+[ -d "$HOME/.config/opencode" ] && { mkdir -p "$HOME/.config/opencode/command"; cp "$REPO/commands/opencode/avengers.md"   "$HOME/.config/opencode/command/"; }
+[ -d "$HOME/.gemini" ]         && { mkdir -p "$HOME/.gemini/commands";         cp "$REPO/commands/gemini/avengers.toml"   "$HOME/.gemini/commands/"; }
+echo "Installed /avengers into claude, codex, opencode, and antigravity (restart each agent to load it)"
 
 # 6) tmux config: write our block with BINDIR baked in, source it from ~/.tmux.conf
 sed "s#__BINDIR__#$BINDIR#g" "$REPO/config/tmux.conf" > "$CONFDIR/tmux.conf"
