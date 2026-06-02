@@ -12,7 +12,7 @@ agent**, and it builds the whole thing for you, adapting to the CLIs you actuall
 
 ```bash
 git clone https://github.com/Jumpsy/ai-avengers.git
-cd multi-agent-cli
+cd ai-avengers
 ```
 
 Then open **[`MASTER_PROMPT.md`](./MASTER_PROMPT.md)**, copy the prompt in the box, and paste it
