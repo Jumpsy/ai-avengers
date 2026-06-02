@@ -11,13 +11,13 @@ agent**, and it builds the whole thing for you, adapting to the CLIs you actuall
 ## Quick start
 
 ```bash
-git clone <this-repo-url> agent-swarm
-cd agent-swarm
+git clone https://github.com/Jumpsy/multi-agent-cli.git
+cd multi-agent-cli
 ```
 
 Then open **[`MASTER_PROMPT.md`](./MASTER_PROMPT.md)**, copy the prompt in the box, and paste it
 to your AI agent (Claude Code / Codex / Gemini / Cursor / opencode / Aider …) **from inside the
-`agent-swarm` directory**. It will detect your CLIs, install everything, launch the session, and
+cloned directory**. It will detect your CLIs, install everything, launch the session, and
 test it.
 
 Prefer to do it yourself? Just run:
