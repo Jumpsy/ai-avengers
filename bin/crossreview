@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# crossreview <file>   every agent reads the file and reports bugs/bad practices + fixes
+f="$1"; [ -z "$f" ] || [ ! -f "$f" ] && { echo "usage: crossreview <existing-file>"; exit 1; }
+P="You and the other AI agents share this workspace. Review the file $f. List concrete bugs, bad practices, or design issues, and give the fix. Be direct and concise."
+askall "$P"

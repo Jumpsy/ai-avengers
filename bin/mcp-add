@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+# mcp-add <name> <command> [args...]   register one stdio MCP server into every agent that's installed.
+# Supports claude (~/.claude.json), opencode (~/.config/opencode/opencode.json),
+# codex (~/.codex/config.toml), and antigravity/agy (imports from claude).
+name="$1"; cmd="$2"; shift 2 2>/dev/null; args=("$@")
+[ -z "$name" ] || [ -z "$cmd" ] && { echo "usage: mcp-add <name> <command> [args...]"; exit 1; }
+
+python3 - "$name" "$cmd" "${args[@]}" <<'PY'
+import json,sys,os
+name,cmd,*args=sys.argv[1:]
+home=os.path.expanduser("~")
+# claude
+p=os.path.join(home,".claude.json")
+if os.path.exists(os.path.dirname(p)) or os.path.exists(p):
+    d=json.load(open(p)) if os.path.exists(p) else {}
+    d.setdefault("mcpServers",{})[name]={"command":cmd,"args":args}
+    json.dump(d,open(p,"w"),indent=2); print("claude updated")
+# opencode
+p=os.path.join(home,".config/opencode/opencode.json")
+if os.path.isdir(os.path.dirname(p)):
+    d=json.load(open(p)) if os.path.exists(p) else {}
+    d.setdefault("mcp",{})[name]={"type":"local","command":[cmd]+args,"enabled":True}
+    json.dump(d,open(p,"w"),indent=2); print("opencode updated")
+PY
+
+# codex (~/.codex/config.toml) — append a server block if codex config dir exists
+if [ -d "$HOME/.codex" ]; then
+python3 - "$name" "$cmd" "${args[@]}" <<'PY'
+import sys,os
+name,cmd,*args=sys.argv[1:]
+a=", ".join('"%s"'%x for x in args)
+block=f'\n[mcp_servers.{name}]\ncommand = "{cmd}"\nargs = [{a}]\n'
+open(os.path.expanduser("~/.codex/config.toml"),"a").write(block); print("codex updated")
+PY
+fi
+
+# antigravity/agy: import the servers from claude's config, if agy is present
+command -v agy >/dev/null 2>&1 && agy plugin import claude >/dev/null 2>&1 && echo "agy imported from claude"
+echo "MCP '$name' added. Restart a pane (or run clearall) to load it."

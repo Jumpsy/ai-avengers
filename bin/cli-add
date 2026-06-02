@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# cli-add <npm-package>   install a CLI globally; every agent on this machine shares it on PATH
+[ -z "$1" ] && { echo "usage: cli-add <npm-package>"; exit 1; }
+npm install -g "$@" && echo "installed $* — available to all agents on PATH"

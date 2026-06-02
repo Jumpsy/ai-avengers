@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# convo [N]      show the last N lines of the shared feed (default 40)
+# convo -f       live-follow the shared feed
+S="${AGENT_SHARED:-$HOME/agent-shared}/conversation.log"; touch "$S"
+case "$1" in
+  -f|--follow) tail -f "$S" ;;
+  *) tail -n "${1:-40}" "$S" ;;
+esac

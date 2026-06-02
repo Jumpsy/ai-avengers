@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# paste   print the current shared clipboard (whatever was last copied on the Mac or by any agent).
+# Pipe it anywhere, e.g.:  paste > file.txt   |   diff <(paste) other.txt
+SHARED="${AGENT_SHARED:-$HOME/agent-shared}/clipboard"
+[ -f "$SHARED" ] && cat "$SHARED" || { echo "(shared clipboard empty)" >&2; exit 0; }

@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# say <msg...>   post a note to the shared feed (uses $AGENT_NAME or 'user')
+S="${AGENT_SHARED:-$HOME/agent-shared}/conversation.log"; mkdir -p "$(dirname "$S")"
+printf '[%s] %s: %s\n' "$(date -u +%H:%M:%S)" "${AGENT_NAME:-user}" "$*" >> "$S"
+echo "posted."

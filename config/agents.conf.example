@@ -1,0 +1,18 @@
+# agent-swarm roster — one agent per line:   <key> : <command that launches its CLI>
+#
+#   <key>  how you address the agent:  ask <key> "..."   (keep it short; becomes $AGENT_NAME)
+#   <cmd>  the exact shell command that starts that CLI in a fresh terminal
+#
+# Pane order in the tmux grid follows the order of lines here.
+# Delete agents you don't have; add any CLI that runs in a terminal.
+# Run them in their auto-approve / no-prompt mode so the team can work unattended.
+
+claude   : claude --dangerously-skip-permissions
+codex    : codex --dangerously-bypass-approvals-and-sandbox
+opencode : opencode
+agy      : agy --dangerously-skip-permissions
+
+# More you could add, for example:
+# gemini  : gemini
+# aider   : aider --yes
+# cursor  : cursor-agent

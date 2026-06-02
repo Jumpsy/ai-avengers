@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+# agents-start [session] [workdir]
+# Launch (or re-attach) a tmux session with one pane per AI agent, driven by agents.conf.
+# Each pane is tagged so the team commands (ask/askall/route/clearall) can find it.
+SESSION="${1:-${AGENTS_SESSION:-agents}}"
+WORK="${2:-${AGENTS_WORKSPACE:-$HOME/agent-workspace}}"
+CONF="${AGENTS_CONF:-$HOME/.config/agent-swarm/agents.conf}"
+
+mkdir -p "$WORK" "${AGENT_SHARED:-$HOME/agent-shared}/memory"
+[ -f "$CONF" ] || { echo "no agent config at $CONF (copy config/agents.conf.example there)"; exit 1; }
+
+if tmux has-session -t "$SESSION" 2>/dev/null; then exec tmux attach -t "$SESSION"; fi
+
+first=1
+while IFS= read -r line; do
+  case "$line" in ''|\#*) continue;; esac
+  key="$(printf '%s' "${line%%:*}" | xargs)"
+  cmd="$(printf '%s' "${line#*:}" | sed 's/^[[:space:]]*//')"
+  [ -z "$key" ] || [ -z "$cmd" ] && continue
+  if [ "$first" -eq 1 ]; then
+    tmux new-session -d -s "$SESSION" -n agents -c "$WORK"
+    first=0
+  else
+    tmux split-window -t "$SESSION" -c "$WORK"
+    tmux select-layout -t "$SESSION" tiled
+  fi
+  # launch the CLI in the active pane; fall back to a shell when it exits
+  tmux send-keys -t "$SESSION" "clear; export AGENT_NAME=$key; printf '\033]2;$key\033\\'; $cmd; exec bash" C-m
+  pane="$(tmux display-message -p -t "$SESSION" '#{pane_id}')"
+  tmux set -p -t "$pane" @agent "$key"
+  tmux set -p -t "$pane" @agentcmd "$cmd"
+done < "$CONF"
+
+[ "$first" -eq 1 ] && { echo "no agents defined in $CONF"; exit 1; }
+
+tmux select-layout -t "$SESSION" tiled
+tmux setw -t "$SESSION" synchronize-panes off
+tmux select-pane -t "$SESSION".0
+exec tmux attach -t "$SESSION"

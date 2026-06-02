@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# bus send <to> <from> <msg> | bus read <name> | bus log | bus clear <name>
+# Simple file-backed inbox for async agent-to-agent messages.
+B="${AGENT_SHARED:-$HOME/agent-shared}/bus"; mkdir -p "$B"
+case "$1" in
+  send) to="$2"; from="$3"; shift 3; echo "[$(date -u +%H:%M:%S)] $from: $*" >>"$B/$to.inbox"; echo "-> $to" ;;
+  read) cat "$B/$2.inbox" 2>/dev/null || echo "(empty)" ;;
+  log)  tail -n +1 "$B"/*.inbox 2>/dev/null ;;
+  clear) : > "$B/$2.inbox"; echo "cleared $2" ;;
+  *) echo "usage: bus send <to> <from> <msg> | read <name> | log | clear <name>" ;;
+esac

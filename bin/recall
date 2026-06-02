@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# recall            load everything the team has collectively remembered
+# recall <query>    search memory
+M="${AGENT_SHARED:-$HOME/agent-shared}/memory/MEMORY.md"; mkdir -p "$(dirname "$M")"; touch "$M"
+if [ -n "$1" ]; then grep -i -- "$*" "$M" || echo "(no memory matching '$*')"; else cat "$M"; fi

@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+# needs            -> show all pending things agents need from the user (for the LEAD to relay)
+# needs clear      -> clear the queue after relaying
+Q="${AGENT_SHARED:-$HOME/agent-shared}/user-requests.log"; touch "$Q"
+[ "$1" = "clear" ] && { : > "$Q"; echo "cleared."; exit 0; }
+[ -s "$Q" ] && cat "$Q" || echo "(nothing needed from the user right now)"

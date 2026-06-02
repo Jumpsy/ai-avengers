@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+# askall [--buffer <name>] | <prompt...>
+# Broadcast a prompt into EVERY agent pane in the session AT ONCE.
+# Fire-and-forget: types into all panes, submits all, then returns immediately.
+# Each agent answers in its own pane (read replies there, or via `convo`).
+sess="${ASK_SESSION:-$(tmux display-message -p '#{session_name}' 2>/dev/null)}"
+[ -z "$sess" ] && sess=agents
+
+if [ "$1" = "--buffer" ]; then
+  buf="${2:-bcast}"
+  p="$(tmux show-buffer -b "$buf" 2>/dev/null)"
+  tmux delete-buffer -b "$buf" 2>/dev/null
+else
+  p="$*"
+fi
+[ -z "$p" ] && { echo "usage: askall <prompt>   (broadcasts to all agent panes in session '$sess')"; exit 1; }
+
+FROM="${AGENT_NAME:-user}"
+msg="[$FROM says] $p"
+S="${AGENT_SHARED:-$HOME/agent-shared}/conversation.log"; mkdir -p "$(dirname "$S")"
+printf '[%s] %s -> ALL: %s\n' "$(date -u +%H:%M:%S)" "$FROM" "$p" >> "$S"
+
+# collect every pane tagged with an @agent
+panes=$(tmux list-panes -t "$sess" -F '#{pane_id} #{@agent}' 2>/dev/null | awk '$2!=""{print $1}')
+[ -z "$panes" ] && { echo "no agent panes found in session '$sess'"; exit 1; }
+
+# 1) type the literal message into all panes
+for pane in $panes; do tmux send-keys -t "$pane" -l "$msg"; done
+# 2) let each TUI settle, then submit everywhere
+sleep 0.5
+for pane in $panes; do tmux send-keys -t "$pane" Enter; done
+
+n=$(printf '%s\n' $panes | wc -l | tr -d ' ')
+echo "📣 broadcast to $n agents: $p"

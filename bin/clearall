@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# clearall   restart every agent pane fresh (clears their context) and wipes the shared feed
+sess="$(tmux display-message -p '#{session_name}' 2>/dev/null)"; [ -z "$sess" ] && sess="${ASK_SESSION:-agents}"
+tmux run-shell -b "clearall-do $sess"
+echo "clearing all agents (restarting fresh)…"

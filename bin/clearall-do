@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# clearall-do <session>   internal: respawn each agent pane using its stored launch command
+sess="${1:-agents}"
+tmux list-panes -t "$sess" -F '#{pane_id}|#{@agent}|#{@agentcmd}' 2>/dev/null | while IFS='|' read -r pid ag cmd; do
+  [ -z "$ag" ] && continue
+  [ -z "$cmd" ] && cmd="$ag"
+  tmux respawn-pane -k -t "$pid" "bash -lc 'export AGENT_NAME=$ag; printf \"\\033]2;$ag\\033\\\\\"; $cmd; exec bash'"
+done
+: > "${AGENT_SHARED:-$HOME/agent-shared}/conversation.log" 2>/dev/null

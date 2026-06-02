@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+# clip-sync  — runs on your LOCAL machine (macOS). Keeps your system clipboard and the
+# remote agents' shared clipboard in sync, both directions, over one multiplexed SSH link.
+#
+#   Mac copies something  -> pushed to the remote shared clipboard (agents see it via `paste`)
+#   An agent runs `clip`  -> pulled down onto your Mac clipboard
+#
+# Config via env (or edit the defaults):
+#   CLIP_SSH_HOST   ssh host/alias for the agents box      (default: agents)
+#   CLIP_REMOTE     path to the shared clipboard file on it (default: ~/agent-shared/clipboard)
+#   CLIP_INTERVAL   poll seconds                            (default: 1)
+HOST="${CLIP_SSH_HOST:-agents}"
+REMOTE="${CLIP_REMOTE:-\$HOME/agent-shared/clipboard}"
+INT="${CLIP_INTERVAL:-1}"
+
+# Detect local clipboard tools (macOS pbcopy/pbpaste, or Linux xclip/wl-clipboard)
+if command -v pbcopy >/dev/null 2>&1; then COPY=pbcopy; PASTE=pbpaste
+elif command -v wl-copy >/dev/null 2>&1; then COPY=wl-copy; PASTE="wl-paste -n"
+elif command -v xclip   >/dev/null 2>&1; then COPY="xclip -selection clipboard"; PASTE="xclip -selection clipboard -o"
+else echo "clip-sync: no local clipboard tool (need pbcopy/pbpaste, wl-clipboard, or xclip)"; exit 1; fi
+
+# Dedicated multiplexed SSH so each poll is cheap and never opens the tmux session.
+SOCK="$HOME/.ssh/cm-agentswarm-clip"
+SSH="ssh -o RemoteCommand=none -o RequestTTY=no -o ClearAllForwardings=yes \
+        -o ControlMaster=auto -o ControlPath=$SOCK -o ControlPersist=60m \
+        -o ServerAliveInterval=30 $HOST"
+
+echo "clip-sync: syncing local clipboard <-> $HOST:$REMOTE every ${INT}s (Ctrl-C to stop)"
+last=""
+while true; do
+  loc="$($PASTE 2>/dev/null)"
+  rem="$($SSH "cat $REMOTE 2>/dev/null")"
+  if [ "$loc" != "$last" ] && [ -n "$loc" ]; then
+    printf '%s' "$loc" | $SSH "cat > $REMOTE"
+    last="$loc"
+  elif [ "$rem" != "$last" ] && [ -n "$rem" ]; then
+    printf '%s' "$rem" | $COPY
+    last="$rem"
+  fi
+  sleep "$INT"
+done

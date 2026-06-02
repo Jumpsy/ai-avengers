@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# need "<what you need from the human>"  — register a request instead of asking the user directly.
+# The LEAD agent consolidates these and relays them to the user once.
+SH="${AGENT_SHARED:-$HOME/agent-shared}"; mkdir -p "$SH"
+Q="$SH/user-requests.log"
+printf '[%s] %s NEEDS: %s\n' "$(date -u +%H:%M:%S)" "${AGENT_NAME:-agent}" "$*" >> "$Q"
+printf '[%s] %s -> user(need): %s\n' "$(date -u +%H:%M:%S)" "${AGENT_NAME:-agent}" "$*" >> "$SH/conversation.log"
+echo "registered. the lead agent will relay this to the user."

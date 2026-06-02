@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# route "<task>"  -> auto-selects the strongest available agent and sends the task there (via ask)
+t="$*"; [ -z "$t" ] && { echo "usage: route <task>"; exit 1; }
+sess="$(tmux display-message -p '#{session_name}' 2>/dev/null)"; [ -z "$sess" ] && sess="${ASK_SESSION:-agents}"
+have() { tmux list-panes -t "$sess" -F '#{@agent}' 2>/dev/null | grep -qx "$1"; }
+lc=$(printf '%s' "$t" | tr 'A-Z' 'a-z')
+if   echo "$lc" | grep -qE 'design|ui|ux|front[ -]?end|css|layout|style|visual|landing|logo|colou?r|animation|figma' && have agy; then a=agy
+elif echo "$lc" | grep -qE 'back[ -]?end|api|database|db|server|auth|endpoint|sql|schema|algorithm|performance|concurren|systems?|infra|deploy' && have codex; then a=codex
+elif echo "$lc" | grep -qE 'cheap|bulk|simple|quick|draft|boilerplate|rename|format|lint' && have opencode; then a=opencode
+elif have claude; then a=claude
+else a=$(tmux list-panes -t "$sess" -F '#{@agent}' 2>/dev/null | awk 'NF{print;exit}'); fi
+[ -z "$a" ] && { echo "no agents available to route to"; exit 1; }
+echo "auto-routed to: $a"
+ask "$a" "$t"

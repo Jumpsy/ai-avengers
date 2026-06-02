@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# clip [text...]   copy stdin (or args) to the SHARED clipboard.
+#   - writes it to the shared clipboard file (read by every agent + the Mac sync daemon)
+#   - emits OSC52 so it also lands on your local (Mac) clipboard instantly inside tmux/ssh
+SHARED="${AGENT_SHARED:-$HOME/agent-shared}/clipboard"; mkdir -p "$(dirname "$SHARED")"
+data="$([ -t 0 ] && printf '%s' "$*" || cat)"
+printf '%s' "$data" > "$SHARED"
+enc=$(printf '%s' "$data" | base64 | tr -d '\n')
+if [ -n "$TMUX" ]; then printf '\033Ptmux;\033\033]52;c;%s\007\033\\' "$enc"
+else printf '\033]52;c;%s\007' "$enc"; fi
+echo "→ copied to shared clipboard (+ your Mac)" >&2
