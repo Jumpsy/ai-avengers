@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # askall [--buffer <name>] | <prompt...>
-# Broadcast a prompt into EVERY agent pane in the session AT ONCE.
-# Fire-and-forget: types into all panes, submits all, then returns immediately.
-# Each agent answers in its own pane (read replies there, or via `convo`).
+# Broadcast a prompt into EVERY agent pane in the session, RELIABLY.
+# Types into all panes, submits all, then verifies each pane received it and
+# retries the ones that didn't (handles agents that were busy/rendering).
 sess="${ASK_SESSION:-$(tmux display-message -p '#{session_name}' 2>/dev/null)}"
 [ -z "$sess" ] && sess=agents
 
@@ -20,15 +20,42 @@ msg="[$FROM says] $p"
 S="${AGENT_SHARED:-$HOME/agent-shared}/conversation.log"; mkdir -p "$(dirname "$S")"
 printf '[%s] %s -> ALL: %s\n' "$(date -u +%H:%M:%S)" "$FROM" "$p" >> "$S"
 
-# collect every pane tagged with an @agent
 panes=$(tmux list-panes -t "$sess" -F '#{pane_id} #{@agent}' 2>/dev/null | awk '$2!=""{print $1}')
 [ -z "$panes" ] && { echo "no agent panes found in session '$sess'"; exit 1; }
 
-# 1) type the literal message into all panes
-for pane in $panes; do tmux send-keys -t "$pane" -l "$msg"; done
-# 2) let each TUI settle, then submit everywhere
-sleep 0.5
-for pane in $panes; do tmux send-keys -t "$pane" Enter; done
+# send the prompt into one pane: clear any stale input, type, settle, submit
+send_one() {
+  local pane="$1"
+  tmux send-keys -t "$pane" C-u 2>/dev/null      # clear current input line
+  tmux send-keys -t "$pane" -l "$msg"            # type the literal message
+  sleep 0.4                                      # let the TUI place it in its input box
+  tmux send-keys -t "$pane" Enter                # submit
+}
 
-n=$(printf '%s\n' $panes | wc -l | tr -d ' ')
-echo "📣 broadcast to $n agents: $p"
+# did this pane actually receive the message? (look for our line in recent output)
+got_it() { tmux capture-pane -p -J -S -60 -t "$1" 2>/dev/null | grep -qF "$msg"; }
+
+# pass 1
+for pane in $panes; do send_one "$pane"; done
+
+# verify + up to 2 retries for any pane that didn't take it
+ok=""; missing="$panes"
+for attempt in 1 2 3; do
+  sleep 1.2
+  still=""
+  for pane in $missing; do
+    if got_it "$pane"; then ok="$ok $pane"; else still="$still $pane"; fi
+  done
+  missing="$(echo $still)"
+  [ -z "$missing" ] && break
+  for pane in $missing; do send_one "$pane"; done
+done
+
+total=$(printf '%s\n' $panes | wc -l | tr -d ' ')
+if [ -n "$missing" ]; then
+  for pane in $missing; do
+    a=$(tmux display-message -p -t "$pane" '#{@agent}')
+    echo "⚠ $a ($pane) may not have received it — it could be mid-task; try again or check that pane."
+  done
+fi
+echo "📣 broadcast to $total agents (confirmed delivered to $(echo $ok | wc -w | tr -d ' ')): $p"
