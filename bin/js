@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# js — open the AI Avengers swarm (4-agent tmux grid: claude, codex, opencode, antigravity).
+# Creates the session if needed, otherwise re-attaches to the running one.
+exec agents-start "$@"
