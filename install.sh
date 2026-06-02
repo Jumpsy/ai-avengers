@@ -42,6 +42,14 @@ for name in AGENTS.md CLAUDE.md GEMINI.md; do
 done
 touch "$SHARED/conversation.log" "$SHARED/clipboard"
 
+# 5b) ALSO place the team instructions in each agent's GLOBAL config dir, so an agent that
+# cd's into a subproject doesn't lose the "how to message teammates" rules.
+#  - opencode auto-loads ~/.config/opencode/AGENTS.md
+#  - codex auto-loads ~/.codex/AGENTS.md
+#  - claude searches up the tree for CLAUDE.md (covered by the workspace copy)
+[ -d "$HOME/.config/opencode" ] && cp "$REPO/templates/AGENTS.md" "$HOME/.config/opencode/AGENTS.md"
+[ -d "$HOME/.codex" ] && cp "$REPO/templates/AGENTS.md" "$HOME/.codex/AGENTS.md"
+
 # 6) tmux config: write our block with BINDIR baked in, source it from ~/.tmux.conf
 sed "s#__BINDIR__#$BINDIR#g" "$REPO/config/tmux.conf" > "$CONFDIR/tmux.conf"
 TMUXRC="$HOME/.tmux.conf"; touch "$TMUXRC"
