@@ -53,6 +53,15 @@ config/
 templates/AGENTS.md     orchestration instructions seeded into the agents' workspace
 ```
 
+## Copying text out of a pane to your local clipboard
+tmux copy-mode selections are piped to the shared clipboard (`clip-store`), so they reach your
+machine via `clip-sync` even on terminals without OSC52.
+- **Panes that don't grab the mouse** (claude/codex/antigravity): drag-select → release → paste
+  (~1s), or hold **⌥ Option** and drag, then **⌘C** for an instant native copy.
+- **Panes that grab the mouse** (e.g. opencode): a normal drag is eaten by the app. Use keyboard
+  copy-mode — **`prefix` `[`**, move, **`v`** select, **`y`** copy — or **⌥-drag + ⌘C**.
+  Keyboard copy-mode works in *every* pane regardless of mouse capture.
+
 ## Notes
 - Agents run in **auto-approve / bypass mode** by design — they execute without prompting.
   Run this on a box you're comfortable giving that freedom (a VPS or a scratch machine is ideal).

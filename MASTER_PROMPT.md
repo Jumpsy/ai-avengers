@@ -46,27 +46,47 @@ DO THIS, STEP BY STEP — and actually run the commands, reporting what happened
    `tmux attach -t agents`.) Confirm each agent pane came up by running
    `tmux list-panes -t agents -F '#{@agent} #{pane_current_command}'`.
 
-6. TEST THE BROADCAST. Run `askall "reply with one short line to confirm broadcast works"`.
+6. LOG ME IN — OPEN ALL THE LOGIN LINKS. A fresh agent usually needs a one-time sign-in.
+   For each agent pane, `tmux capture-pane -p -t <pane>` and look for a login/auth prompt or a
+   URL (OAuth device-code flow, "sign in", "paste this code", "press Enter to authenticate", etc.).
+   - Collect EVERY login URL across all agents and present them to me together as a clear,
+     clickable list labelled by agent ("claude: https://… , codex: https://… , …"). If a CLI
+     needs a keypress to reveal its URL (e.g. Enter to start the device flow), send that key into
+     its pane first (`tmux send-keys -t <pane> Enter`) then re-capture.
+   - If you can open URLs on this machine, also run the OS opener for each (`open <url>` on macOS,
+     `xdg-open <url>` on Linux) so they pop up in my browser; otherwise just give me the links.
+   - After I authenticate, re-capture each pane and confirm every agent is past login and sitting
+     at its ready prompt. List which agents are logged in and which still need action.
+
+7. TEST THE BROADCAST. Run `askall "reply with one short line to confirm broadcast works"`.
    Wait ~8 seconds, then capture each pane (`tmux capture-pane -p -t <pane>`) and show me that
    every agent received and answered. Report the result honestly.
 
-7. SET UP THE SHARED CLIPBOARD.
+8. SET UP THE SHARED CLIPBOARD.
    - On THIS host, `clip` writes to a shared file and `paste` reads it; every agent uses them.
    - If I reach this machine over SSH from another computer (a Mac/laptop), set up two-way sync
-     so my laptop's system clipboard and the agents' shared clipboard mirror each other:
-       * Copy bin/clip-sync to my laptop (or tell me to), and run it there in the background:
-         `CLIP_SSH_HOST=<my-ssh-alias-for-this-box> clip-sync &`
-       * For zero-friction reuse, add SSH multiplexing to my laptop's ~/.ssh/config for that
-         host (ControlMaster auto / ControlPath ~/.ssh/cm-%r@%h:%p / ControlPersist 10m) so the
-         1-second polling is cheap. On macOS, offer to install it as a launchd LaunchAgent so it
-         starts automatically; on Linux, offer a systemd --user service. Ask me before installing
-         a background service.
+     so my laptop's system clipboard and the agents' shared clipboard mirror each other. On macOS
+     the repo has a one-shot installer: from my laptop run `mac/install-clipsync.sh <ssh-host>`
+     (it installs clip-sync + a launchd LaunchAgent that auto-starts at login). Otherwise run
+     `CLIP_SSH_HOST=<ssh-host> clip-sync &` in the background. For cheap 1-second polling, add SSH
+     multiplexing to the laptop's ~/.ssh/config for that host (ControlMaster auto / ControlPath
+     ~/.ssh/cm-%r@%h:%p / ControlPersist 10m). Ask me before installing a background service.
    - Test it: put text on one side and read it on the other (`paste` here vs the laptop clipboard).
+   - COPYING TEXT OUT OF A PANE onto my local clipboard: the installed tmux config pipes copy-mode
+     selections to the shared clipboard (via `clip-store`), so they reach my machine even without
+     OSC52. Tell me the gestures explicitly, because TUIs that grab the mouse (e.g. opencode) need
+     a different method:
+       * Panes that don't grab the mouse (claude/codex/antigravity): drag to select, release,
+         then paste locally (~1s via the sync), or hold Option and drag then Cmd-C for instant
+         native copy.
+       * Panes that DO grab the mouse (opencode): a normal drag is eaten by the app. Use keyboard
+         copy-mode — `prefix` `[`, move, `v` to select, `y` to copy — or hold Option while dragging
+         then Cmd-C. Keyboard copy-mode works in every pane regardless of mouse capture.
 
-8. TELL ME HOW TO USE IT. Print a short cheat-sheet: prefix+a to broadcast (default prefix
+9. TELL ME HOW TO USE IT. Print a short cheat-sheet: prefix+a to broadcast (default prefix
    Ctrl-b), `askall`, `ask <agent> "..."`, `route`, `convo -f`, `clip`/`paste`, `clearall`,
-   `recall`/`remember`. Note that clicking a pane focuses it (mouse is on) and prefix+m toggles
-   mouse off if I want native text selection.
+   `recall`/`remember`. Include the copy gestures from step 8. Note that clicking a pane focuses
+   it (mouse is on), prefix+m toggles mouse off for native selection, and Alt+arrows switch panes.
 
 CONSTRAINTS:
 - Prefer the repo's scripts as-is; only adapt agents.conf and paths to my environment.
