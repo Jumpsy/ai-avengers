@@ -50,6 +50,13 @@ touch "$SHARED/conversation.log" "$SHARED/clipboard"
 [ -d "$HOME/.config/opencode" ] && cp "$REPO/templates/AGENTS.md" "$HOME/.config/opencode/AGENTS.md"
 [ -d "$HOME/.codex" ] && cp "$REPO/templates/AGENTS.md" "$HOME/.codex/AGENTS.md"
 
+# 5c) install the /avengers orchestrator skill for Claude Code (the lead agent uses it)
+if [ -d "$REPO/skills" ]; then
+  mkdir -p "$HOME/.claude/skills"
+  cp -R "$REPO/skills/." "$HOME/.claude/skills/"
+  echo "Installed Claude Code skill(s) to ~/.claude/skills (type /avengers in the claude pane)"
+fi
+
 # 6) tmux config: write our block with BINDIR baked in, source it from ~/.tmux.conf
 sed "s#__BINDIR__#$BINDIR#g" "$REPO/config/tmux.conf" > "$CONFDIR/tmux.conf"
 TMUXRC="$HOME/.tmux.conf"; touch "$TMUXRC"

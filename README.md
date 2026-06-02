@@ -51,7 +51,13 @@ config/
   agents.conf.example   your roster: <key> : <launch command>, one per agent
   tmux.conf             tmux settings + the broadcast keybinding (merged into ~/.tmux.conf)
 templates/AGENTS.md     orchestration instructions seeded into the agents' workspace
+skills/avengers/        the /avengers Claude Code orchestrator skill (installed to ~/.claude/skills)
 ```
+
+## The `/avengers` orchestrator skill
+Installed to `~/.claude/skills/avengers`. In the claude pane, type **`/avengers`** to make claude
+the lead: it plans the task, delegates each part to the strongest teammate (codex/antigravity/
+opencode), enforces a top-tier anti-"vibe-coded" quality bar, and synthesizes one result.
 
 ## Copying text out of a pane to your local clipboard
 tmux copy-mode selections are piped to the shared clipboard (`clip-store`), so they reach your

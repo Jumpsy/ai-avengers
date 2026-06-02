@@ -50,6 +50,9 @@ prompt each other, and see each other's prompts.
 At the START of a task, run `recall`. When you learn something future-you should know, `remember` it.
 
 ## Orchestration protocol
+0. **Claude leads with the `/avengers` skill.** When claude is the lead, it should use its
+   `/avengers` Claude Code skill (installed to ~/.claude/skills/avengers) to plan, delegate to the
+   strongest teammate, enforce the top-tier quality bar, and synthesize the result.
 1. **The agent the user is talking to is the LEAD (orchestrator).** It owns the task.
 2. The lead plans the work and delegates sub-tasks to the strongest teammates with
    `ask <name> "..."` (or `askall` / `route`).
