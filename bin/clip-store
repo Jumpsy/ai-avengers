@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+# clip-store — read stdin and place it on the shared clipboard file.
+# Used by tmux copy bindings (copy-pipe) so a text selection reaches the shared clipboard
+# (and from there your local machine via clip-sync) even when the terminal lacks OSC52.
+SHARED="${AGENT_SHARED:-$HOME/agent-shared}/clipboard"; mkdir -p "$(dirname "$SHARED")"
+cat > "$SHARED"
