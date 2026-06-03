@@ -67,7 +67,29 @@ hub — it tells you which teammate and which skill to reach for at each step.
     (orbital/morph motion, ~1.8s ease-in-out, sizes 18-40px, framer-motion + a CSS fallback,
     light/dark via currentColor, reduced-motion = simple pulse). Use it for the chat "thinking"
     avatar and other async states. Premium and subtle, never flashy.
-17. **SELF-UPDATING SKILL (meta-rule).** Whenever the user states a new preference, rule, fact,
+18. **NO BLAND SECTIONS (esp. card grids).** A flat cream/white section with a uniform 3x2 grid of
+    identical rounded cards and thin outline icons reads as bland AI-slop. Every content section must
+    earn visual interest: (a) break uniformity — feature ONE card with a bold color block or a real
+    photo, vary sizes/bento where it helps; (b) give the section depth (a subtle wash/tint or a real
+    image), not flat single-fill; (c) cards get real hover life (lift + brand border + shadow);
+    (d) inject REAL PHOTOGRAPHY generously — e.g. a product/service card grid should put a relevant
+    photo on EACH card (a mowing photo on the mowing card, etc.), not just icons + text. If a section
+    could be a generic template, it fails. Verify icon chips that overlap an image are NOT clipped by a
+    parent `overflow-hidden` (put the zoom-clip on an inner layer so the chip can overhang).
+18b. **BANNED vibe-coded elements (never ship these).** (1) `lucide:sparkles` / any AI-sparkle/“magic”
+    glyph — never. (2) Fake star ratings, especially on placeholder/sample testimonials (also dishonest);
+    use a quote mark or real attributed reviews. (3) The grid-of-little-boxes background pattern
+    (faint repeating lines/squares) — never. (4) The dot-pill eyebrow (a rounded pill with a tiny
+    colored dot + label) — use a clean editorial eyebrow (short rule + uppercase label) instead.
+    (5) Boxed icons where a translucent/contrasting square shows a visible BORDER/seam against its
+    background — if you use an icon container make it solid and seamless, or drop the box; over photos
+    use a clean solid (white/paper) chip, never green-on-green. (6) Decorative single stars as badge
+    markers. (7) NO dashes in any text, ever — not em (—), en (–), and not even in code comments;
+    use periods, commas, or “to”. (8) Section rhythm must not be flat white→color→white blocks; close
+    the page on a cohesive dark/brand zone (e.g. full-bleed CTA flowing into a dark footer), and give
+    every page tasteful MOTION (load entrance, scroll-reveal, a marquee, hover) plus real loading
+    SKELETONS (route loading.tsx + image shimmer placeholders).
+19. **SELF-UPDATING SKILL (meta-rule).** Whenever the user states a new preference, rule, fact,
     standard, agent, product detail, or "I want X every time" that is NOT already captured here,
     ADD IT to this SKILL.md (the right section, or a new one) in the same session, then continue
     the task. This skill is the team's living memory: nothing the user teaches should have to be
@@ -75,7 +97,10 @@ hub — it tells you which teammate and which skill to reach for at each step.
 
 ## 0.5 WEBSITE BUILD STANDARD — what we ship EVERY time (the "every time" checklist)
 When the task is "build a website/landing page/app front end," deliver ALL of this by default
-(scale copy/sections to the product, but the bar and the parts do not change):
+(scale copy/sections to the product, but the bar and the parts do not change). **First run §0.8 to
+pick the genre** — the spec below is the dark AI-SaaS-product default; for a local service / trades /
+visually-driven business, follow `references/local-service-business.md` instead (light, trust-driven,
+quote-capture) and treat the theme/hero/marquee/pricing items below as overridden there.
 
 **Stack & foundation**
 - Next.js (App Router) + TypeScript + Tailwind v4. Design tokens in `globals.css` via `@theme inline`
@@ -158,6 +183,32 @@ These are the non-negotiable design/copy standards both sibling skills enforce. 
 - **Premium color is a sales tool** — every color earns its place (§5). **Psychology decides what
   goes on the page and why** (§5.5). Both layers run on any landing/app/dashboard/pricing work.
 
+## 0.8 PICK THE GENRE FIRST — design for ANY type of business
+Before applying §0.5, decide which genre you're building. Choosing the wrong genre (a dark gradient
+product page for a bakery; a playful mascot site for a law firm) is the #1 way a site reads as
+templated/AI-slop. The Avengers must be able to design for **every type of business**, so the full
+catalog lives in **`references/business-genres.md`** — read it on any website build to pick the
+archetype and its DNA (theme, hero, palette mood, sections, conversion target, proof type). It covers:
+AI/SaaS · local service & trades · restaurant/food · health/medical/dental · fitness/gym · beauty/
+salon/spa · professional services/B2B/agency/law/finance · real estate · e-commerce/DTC · creative/
+portfolio · education/course · events/wedding · nonprofit/church · hospitality/hotel/travel · fintech/
+crypto/insurance · automotive — **plus a 4-step method to derive the DNA for any business not listed.**
+
+The one question that sets theme + hero: **"is the star a software product the user operates, or a
+real-world thing they book / buy / visit / trust?"** Then:
+- **Software product (AI/SaaS/dev tool)** → §0.5 default: dark, live-demo hero, integration marquee,
+  pricing cards. Proof = the product.
+- **Real-world service / trade / visually-driven local business** → the **light, warm, trust-driven,
+  quote-capture** spec. Deep-dive worked example (sticky estimate form, before/after slider, trust
+  badges, service-area table, brand mascot, gold footer): **`references/local-service-business.md`**.
+- **Anything else** (food, health, fitness, retail, real estate, events, nonprofit, hospitality,
+  finance, creative, education…) → match its archetype in `business-genres.md`, or derive it via the
+  4-step method there. The **universal spine** (honesty, no-dashes, real photos/icons, §5 color, §5.5
+  psychology, SEO, a11y, responsive, verify-with-screenshots) applies to ALL of them.
+
+When the genre is ambiguous or the brand could go two ways, ask ONE clarifying question (register/
+theme or the primary action) before building, then commit. Everything else in §0–§7 still applies.
+
 ## 0. Preflight
 1. `tmux has-session -t agents 2>/dev/null && tmux list-panes -t agents -F '#{@agent}'` — if the
    swarm isn't up, run `agents-start` (tell the user to `tmux attach -t agents` to watch).
@@ -205,11 +256,32 @@ the `stitch-*` skills, `enhance-prompt`. Verify UI with `superpowers-chrome` / `
 **Words / docs / growth:** `humanizer` + `elements-of-style` (clean, non-AI copy),
 `documentation-generation`/`-standards`, `code-documentation`, the `seo-*` skills, `deep-research`.
 
-**Video / ads:** `remotion-best-practices` — make ad / promo / launch videos programmatically with
-Remotion (React → MP4). Scaffold with `npm create video@latest`, render with `npx remotion render`.
-Apply the same anti-slop bar: real brand type/color, tasteful motion with easing (no infinite
+**Video / ads:** two engines, pick per job. (a) `remotion-best-practices` — code-driven video with
+Remotion (React → MP4), best for data/UI-accurate, fully-controlled, re-renderable brand video.
+Scaffold `npm create video@latest`, render `npx remotion render`. (b) **Hera MCP** — prompt-driven
+motion-graphics generation (no code), best for quick branded motion clips, b-roll, launch teasers.
+Apply the same anti-slop bar to BOTH: real brand type/color, tasteful motion with easing (no infinite
 spinny loops), readable text with safe margins, licensed/authentic footage or ChatGPT-generated
 clips that don't look AI, captions, and a 9:16 / 1:1 / 16:9 cut per platform.
+
+> **Hera MCP** (motion-graphics video via Model Context Protocol). Docs index: https://docs.hera.video/llms.txt
+> (fetch it to discover all pages before exploring). Setup once per agent: `npx add-mcp https://mcp.hera.video/mcp
+> --header "x-api-key: YOUR_API_KEY"` (Claude Code: `claude mcp add --transport http hera https://mcp.hera.video/mcp
+> --header "x-api-key: ..."`; codex: `codex mcp add hera -- npx -y mcp-remote https://mcp.hera.video/mcp --header
+> "x-api-key: ..."`). NEVER hardcode or commit the key — read it from a local file or env, like the ElevenLabs key.
+> Three tools: `create_video` (prompt + `outputs[]` of {format mp4/prores/webm/gif, aspect_ratio 16:9/9:16/1:1/4:5,
+> fps 24-60, resolution 360p-4k}; optional `reference_image_url(s)`, `reference_video_url`, `duration_seconds` 1-120,
+> `style_id` for consistent branding, `parent_video_id`, `assets[]`) → returns `video_id`; `get_video` (poll until
+> status `success`, returns download URLs); `upload_file` (image/video/audio/font/csv ≤10MB → hosted URL for input).
+> Workflow: create → poll get_video → use the download URL. Pair Hera (generate) with Remotion (composite/caption/
+> brand overlays) when a clip needs precise on-brand text; voiceover is still always ElevenLabs (§5.6).
+
+> **Higgsfield MCP** (cinematic AI video / motion generation). Server: https://mcp.higgsfield.ai/mcp — add with
+> `claude mcp add --transport http higgsfield https://mcp.higgsfield.ai/mcp` (or the team `mcp-add`). Higgsfield is
+> a paid service: it needs an API key/auth the user must supply — read it from a local file/env, NEVER hardcode or
+> commit it. Best for stylized, camera-motion, generative b-roll and launch/hero films. Same anti-slop bar applies.
+> NOTE: a newly-added MCP is not callable in the session that added it (tools load at session start) — set it up,
+> then use it next session or hand the generation to a teammate that has it live. Voiceover stays ElevenLabs (§5.6).
 
 **Memory:** `episodic-memory` + the swarm's `remember`/`recall`.
 
@@ -249,11 +321,38 @@ recommendation plainly and let the user veto.
 7. Keep the Remotion project in the repo so text/photos can be tweaked and re-rendered. Quality bar
    (§4) still applies — only ship it if it genuinely helps.
 
-### 🖼️ Images / visual art — generate when a section would otherwise be a gray box or text wall
-Hero art, OG/social-share image, feature illustrations, product mockups, icons. UI/brand art =
-Claude-authored SVG/CSS (instant); photos/rich art = free keyless generator (Pollinations/FLUX) or
-the `design-assets:ai-image-generator` / `meigen-ai-design` skills, saved into the project. Never
-ship a placeholder. Generate a favicon + `opengraph-image` on every site.
+### 🖼️ Images / visual art — ALWAYS add real imagery; never ship a gray box or bland text wall
+Every build gets real visuals: hero art, OG/social-share image, feature illustrations, product
+mockups, icons, section photos. This is not optional — a section that would otherwise be empty space
+or a placeholder MUST get a real image. UI/brand art = Claude-authored SVG/CSS (instant). Photos /
+rich art = generate or source them and **save into the project** (`/public`), then verify each one by
+actually looking at it (Read the file / screenshot) before using it — generators return junk often.
+
+**ALWAYS delegate image GENERATION to antigravity (agy).** Antigravity is the team's image generator
+(Gemini/Nano-Banana, with its own quota and the strongest image-gen). For any generated photo/art,
+the lead writes the brand-tight prompts (5-part framework, §2.5) and hands them to agy:
+`ask agy "generate these images: <name+prompt+aspect+save path>, save to <project>/public/photos, then
+reply with the file paths"`. The lead still VERIFIES every returned image by looking at it (contact
+sheet / Read) and re-requests any that are wrong. Do NOT burn the lead's own Gemini key on bulk image
+gen (it rate-limits fast, esp. if run concurrently) — route generation through agy. The keyless
+pipeline below is the FALLBACK only when agy is unavailable.
+
+**Keyless image pipeline (FALLBACK when agy is down — try in order):**
+1. **Pollinations / FLUX** — `https://image.pollinations.ai/prompt/<URL-encoded prompt>?width=W&height=H&nologo=true&seed=N&model=flux`.
+   Best for bespoke, on-brand scenes. NOTE: Pollinations now frequently rate-limits or paywalls
+   (returns JSON `x402` "pay to bypass" / "Queue full" instead of an image) — fire ONE request at a
+   time, and always check the response is actually an image (`file <out>` shows JPEG/PNG, not JSON).
+2. **Curated stock fallback when Pollinations is gated** — pull real photos from Unsplash's CDN
+   (free license, hotlinkable): get photo IDs by fetching an Unsplash search page (e.g.
+   `unsplash.com/s/photos/<query>`) and extract the `images.unsplash.com/photo-<id>` URLs, then
+   download with sizing: `https://images.unsplash.com/photo-<id>?w=1200&h=1400&fit=crop&q=80`.
+   Last resort: `https://loremflickr.com/<w>/<h>/<keywords>/all?lock=<n>` (random CC, lower quality).
+3. **Skills:** `design-assets:ai-image-generator` (Gemini/GPT keys) or `meigen-ai-design` when you
+   need higher control or text rendering.
+Always: encode prompts (`uv run python3 -c "import urllib.parse,sys;print(urllib.parse.quote(sys.argv[1]))"`),
+save attribution, optimize (WebP/sizing), and serve via `next/image`. Generate a favicon +
+`opengraph-image` on every site. Industry rule: local-service/visual businesses (lawn care, gyms,
+restaurants, salons) MUST lead with a real hero photo of the actual thing, not an abstract gradient.
 
 ### 🔊 Voiceover / audio — whenever there's narration
 Any video/demo/ad narration → ElevenLabs (§5.6). Keep it tight and matched to scene timing.
