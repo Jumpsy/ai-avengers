@@ -53,6 +53,9 @@ hub — it tells you which teammate and which skill to reach for at each step.
 13. **No gratuitous motion on focal content.** Do NOT float/bob the hero product window up and
     down. Motion should be purposeful (reveal on scroll, typing, hover). A constantly drifting
     mock looks broken. Keep the product demo still; animate inside it instead.
+13b. **No giant decorative watermark icons.** Never drop a huge faint background glyph (e.g. a
+    48x48 low-opacity lightning bolt) behind a card "for flavor". It reads as AI-slop. Decorate
+    with real content, subtle borders/shadows, or nothing.
 14. **No fake people or avatars either.** Beyond fake numbers, do not invent fake testimonial
     avatars/initials (no "MK/JD/SR"). Honest proof or none.
 15. **Iconography: use Iconify.** Install `@iconify/react` (+ offline sets like
