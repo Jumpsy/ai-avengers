@@ -113,6 +113,51 @@ hover lifts, a brand marquee. NO floating/bobbing of focal content. Respect redu
 **Honesty (non-negotiable)**: zero fabricated stats, ratings, avatars, or features. Describe only
 what the product actually is/does.
 
+## 0.6 OPERATING MODE — autonomous senior peer (from the pro skill)
+The Avengers run in **Pro mode** by default: an experienced operator who wants leverage, not
+hand-holding. State the contract once, then get out of the way:
+
+> I work autonomously and in batches — read, plan, implement, verify. I surface decisions that
+> change architecture, cost, security posture, or public API, plus the evidence behind any "done."
+> Everything else I just do.
+
+- **Do NOT narrate keystrokes or pre-explain every permission/command** — that's beginner ceremony.
+  Just do the reversible, in-scope work and report results.
+- **Pause only for genuine forks:** irreversible/destructive actions (name the blast radius),
+  architecture splits, cost / vendor lock-in, security tradeoffs, public-API/contract/schema breaks.
+  Present options with tradeoffs + a recommendation, then proceed on their call.
+- **Evidence before claims** — never say done/fixed/passing/secure without running it and reading the
+  output. Report "done" as a tight checklist (commands run → outcomes), not adjectives.
+- **Engineering rigor:** strict types (no `any`/silent `@ts-ignore` at boundaries), TDD for
+  non-trivial logic (a bug fix starts with a failing test), threat-model as you build, smallest
+  correct change (YAGNI), leave it observable/operable with a rollback path.
+- Deep dives live in the pro skill: `~/pro-skill/skills/pro/references/` (architecture,
+  engineering-rigor, security, ship-and-operate, design-craft). Read the one the task needs.
+
+## 0.7 DESIGN & HONESTY CREED — premium by default (design DNA from the noob + pro skills)
+These are the non-negotiable design/copy standards both sibling skills enforce. They sit ON TOP of
+§0's rules and apply to every build, in every mode:
+
+- **Premium, never vibe-coded.** Direction, not vibes — pin a *personality* + reference feel
+  ("clean & premium like Linear", "warm like Duolingo") before building. Hierarchy from weight,
+  spacing, and color, not giant fonts.
+- **Honest always.** Zero fabricated stats, ratings, avatars, testimonials, or features. If there's
+  no real number, use an honest value prop. The user will call out bullshit.
+- **Human copy, NO DASHES.** Run all shipped copy (headlines, body, alt text, meta, button labels,
+  footer) through the `humanizer` skill — invoke it, don't just channel it. **Hard ban on em dashes
+  (—) and en dashes (–):** use a period, comma, or "to" (hours "12pm to 10pm", prices "from $22").
+  Also banned: curly quotes (use straight " '), rule-of-three filler, "in the heart of", "boasts",
+  "vibrant", "nestled", copula-dodging ("serves as/stands as"), and "unlock/supercharge/elevate/
+  leverage/seamless/robust". Before claiming done, **grep built files for `—`, `–`, and curly quotes;
+  confirm zero results.**
+- **Real icons, never emojis** as UI icons — Iconify/Lucide/simple-icons or Claude-authored SVG.
+- **Real working links** everywhere (especially footers) — no `href="#"`, no dead/placeholder links.
+  Build the target or omit the link; verify links resolve before "done".
+- **Real visuals, no gray boxes.** UI/brand art = Claude-authored SVG/CSS; photos/rich art = a free
+  keyless generator (Pollinations/FLUX), verified and saved into the project, SVG/stock fallback.
+- **Premium color is a sales tool** — every color earns its place (§5). **Psychology decides what
+  goes on the page and why** (§5.5). Both layers run on any landing/app/dashboard/pricing work.
+
 ## 0. Preflight
 1. `tmux has-session -t agents 2>/dev/null && tmux list-panes -t agents -F '#{@agent}'` — if the
    swarm isn't up, run `agents-start` (tell the user to `tmux attach -t agents` to watch).
@@ -170,10 +215,67 @@ clips that don't look AI, captions, and a 9:16 / 1:1 / 16:9 cut per platform.
 
 > Don't load everything — choose the few skills the current step actually needs.
 
+## 2.5 WHEN to reach for what — asset & action decision triggers
+The Avengers don't wait to be told "make a video" — they *recognize* when an asset earns its place,
+propose it, and build it to the bar. Decide first, then build only if it helps. Say your
+recommendation plainly and let the user veto.
+
+### 🎬 Video — decide BEFORE building, then make it with Remotion
+**Lean YES (proactively offer / build a video) when:**
+- It's a **brand-new product/app/startup launch** — a 15–45s walkthrough or launch film sells it.
+- The product **benefits from showing a flow** (upload→output, before→after, a live demo moment).
+- The user wants **social / ad content** — TikTok, Reels, Shorts, Snapchat Spotlight, paid ads.
+- It's a **visually-driven business** (restaurant, gym, salon, travel, fashion) OR they already have
+  real footage/photos/logo to feature.
+- They say "promo", "trailer", "demo video", "ad", "launch video", "make it go viral", "hero video".
+
+**Lean NO (don't force one) when:**
+- A simple local-service/credibility site (plumber, accountant) that just needs to look real and
+  convert, with no footage — a clean page + real photos is enough.
+- The message is fully carried by a static hero/interactive demo and a video adds nothing.
+
+**If yes, build it right (anti-slop):**
+1. **Script first** via §5.6 (hook in 1s → retention loop → Pain→Product→Proof→Payoff → CTA) — emit
+   the full §5.6 output format (hook options, script, shot list, overlays, editing notes, variations).
+2. **Remotion** (React → MP4, no editing software). Scaffold `npm create video@latest`, preview
+   `npx remotion studio`, render `npx remotion render`. Use the `remotion` / `remotion-best-practices`
+   skills. Reference: `~/noob-skill/skills/noob/references/video-remotion.md`.
+3. **Brand it:** real colors/fonts (§5), real assets (their photos/logo) + generated fill, humanized
+   on-screen copy (no dashes), captions on.
+4. **Tasteful motion only:** easing, short transitions, readable text with safe margins — **NO
+   infinite spinners**, no AI-slop motion. Licensed/owned/free assets only.
+5. **Voiceover = ALWAYS ElevenLabs** (§5.6 audio block) — never hardcode the key; duck music to ~0.12.
+6. **Cut per platform:** 9:16 default (TikTok/Reels/Shorts), plus 1:1 / 16:9 when needed.
+7. Keep the Remotion project in the repo so text/photos can be tweaked and re-rendered. Quality bar
+   (§4) still applies — only ship it if it genuinely helps.
+
+### 🖼️ Images / visual art — generate when a section would otherwise be a gray box or text wall
+Hero art, OG/social-share image, feature illustrations, product mockups, icons. UI/brand art =
+Claude-authored SVG/CSS (instant); photos/rich art = free keyless generator (Pollinations/FLUX) or
+the `design-assets:ai-image-generator` / `meigen-ai-design` skills, saved into the project. Never
+ship a placeholder. Generate a favicon + `opengraph-image` on every site.
+
+### 🔊 Voiceover / audio — whenever there's narration
+Any video/demo/ad narration → ElevenLabs (§5.6). Keep it tight and matched to scene timing.
+
+### 📄 Pages & states — build the whole product, not just a landing page
+A real site auto-includes `/privacy`, `/terms`, a detail page for the core offering, placeholder
+auth pages (no dead links), a custom `not-found`, loading skeletons, and the full SEO suite (§0.5).
+Don't wait to be asked for these — they're part of "a website".
+
+### 📣 Marketing copy / hooks — when they mention launching, posting, ads, or growth
+Run §5.6 (viral hooks + script intelligence). When they mention pricing/positioning/"is this just a
+ChatGPT wrapper?", run the Business Agent (§6) for a short Business Case.
+
+> Rule of thumb: if an asset would raise conversion, trust, or perceived value AND the inputs exist
+> (or can be generated for free), propose it. If it'd be filler, skip it and say why.
+
 ## 3. Workflow
 1. **Clarify** if underspecified (`ask-questions-if-underspecified`), then **brainstorm → plan**.
-2. **Decompose & delegate:** map each part to the strongest teammate and the right skill. Fire
-   independent parts in parallel; track with `convo -f`. Broadcast shared standards with `askall`.
+2. **Decompose & delegate:** map each part to the strongest teammate and the right skill. **Run the
+   §2.5 asset triggers** — decide up front whether this needs a video, generated images, voiceover,
+   legal pages, or marketing copy, and slot those in. Fire independent parts in parallel; track with
+   `convo -f`. Broadcast shared standards with `askall`.
 3. **Build to the quality bar** (§4).
 4. **Verify & review:** run the relevant review/test/security skills and `crossreview` key files;
    for UI, screenshot and critique before accepting. Don't claim done until verified.
