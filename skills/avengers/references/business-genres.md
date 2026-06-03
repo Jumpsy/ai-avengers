@@ -10,7 +10,10 @@ derives the DNA for anything not listed. Every genre still inherits the universa
 Honesty (zero fabricated stats/reviews/avatars), **no dashes anywhere** (use "to"/comma/period),
 humanizer pass on all copy, real icons (Iconify/Lucide/simple-icons, never emojis, never AI-vibe
 glyphs, and NO box/tile around the icon by default per SKILL.md rule 15), real photos
-saved into the project (§2.5 pipeline) instead of gray boxes, deliberate palette where every color
+saved into the project (§2.5 pipeline) instead of gray boxes, **photoreal PEOPLE generated and placed
+where a person belongs** (the worker doing the job, real users on the app, diners/members/students/
+guests per genre, per §2.5's people-imagery rule) so the site never feels cold or person-less,
+deliberate palette where every color
 earns its place (§5), psychology-led structure (§5.5: pain→solution→result, one big promise, trust
 stacking, friction removal, clear 3-second answer), full SEO suite, a11y, mobile-first (375 + 1440),
 real working links, polished loading/empty/error states, and **verify with screenshots before done**.

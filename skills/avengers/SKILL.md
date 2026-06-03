@@ -366,6 +366,46 @@ save attribution, optimize (WebP/sizing), and serve via `next/image`. Generate a
 `opengraph-image` on every site. Industry rule: local-service/visual businesses (lawn care, gyms,
 restaurants, salons) MUST lead with a real hero photo of the actual thing, not an abstract gradient.
 
+### 👤 People imagery — ALWAYS humanize the site with photoreal people (marketing default)
+Real, believable PEOPLE are one of the strongest conversion + trust levers, and most AI-built sites
+forget them and ship a cold, person-less page. **Every build gets generated photoreal humans where a
+person belongs** — make any image generator (agy/Gemini first, keyless pipeline as fallback) produce
+them. Decide where, then generate:
+- **Service / trades / local business → the person DOING the work.** A confident, friendly worker or
+  crew in the right gear (branded cap, hi-vis vest, tools), shot photoreal and warm. Put it in the
+  hero next to the value prop + a checklist (exactly like the asphalt-contractor reference: a clean
+  cut-out portrait, arms crossed, integrated over the section). Also: on-the-job action shots, the
+  crew with a truck, a smiling customer shaking hands.
+- **App / SaaS / product → show PEOPLE USING IT (people-are-on-the-app proof).** Generate authentic
+  shots of real-looking users engaging with the product: a student on a laptop/phone using the app, a
+  hand holding a phone with the actual UI on screen, a person smiling at their screen, candid
+  "using-it-in-real-life" moments, a happy diverse user group. This visually signals "real people use
+  this" and is far more convincing than an empty product mock. Composite the real app UI into the
+  phone/laptop screen so it's the genuine product, not a fake screen.
+- **Other genres:** restaurant = diners enjoying the food/space; gym = members training; health =
+  doctor with a patient; education = students learning; hotel = guests relaxing; nonprofit = the real
+  people served (one person's story, §5.5). Match the audience so the visitor self-identifies.
+
+**How to generate people that look REAL, not AI-uncanny or stock-cheesy (prompt craft):**
+- Specify: photoreal DSLR look, natural soft lighting, candid/relaxed expression, realistic skin
+  texture, the exact wardrobe/setting/props, eye-line and framing. Add "shot on 50mm, shallow depth
+  of field, natural light" cues. Avoid the plastic-smile stock look and the over-smooth AI sheen.
+- **Diversity by default** — vary age, gender, ethnicity, body type across a build; representative,
+  authentic, never tokenized.
+- For hero cut-outs: generate the subject, remove/clean the background, and composite over the brand
+  section so they overlap the layout (depth), with a soft contact shadow.
+- **Inspect every face** — AI mangles hands, eyes, teeth, and text on clothing constantly. Look at
+  each generated person (Read/contact sheet) and regenerate any with artifacts before shipping.
+- Save into `/public/people`, optimize (WebP), serve via `next/image` with real descriptive alt text.
+
+**Honesty line (reconcile with §0 rule 14):** representative human imagery (a model/generated person
+in a hero or section, like any stock photo) is FINE and expected — it humanizes the brand. What stays
+banned: attaching generated faces to FABRICATED named testimonials/reviews, fake "10,000 happy
+customers" headshot walls, or claiming a generated person is a specific real customer/user/employee.
+Show people to convey "this is for people like you"; never manufacture specific false proof. If a
+person could be read as a named testimonial, either make it a real consented one or keep it clearly
+illustrative (no fake name + stars).
+
 ### 🔊 Voiceover / audio — whenever there's narration
 Any video/demo/ad narration → ElevenLabs (§5.6). Keep it tight and matched to scene timing.
 
