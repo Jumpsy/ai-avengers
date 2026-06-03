@@ -374,6 +374,16 @@ G. **Shot List** (every shot) · H. **Text Overlays** (short on-screen captions)
 (cuts, zooms, speed ramps, captions, B-roll, demo screen recordings) · J. **CTA** (final line) ·
 K. **Variations** (3: more funny / more serious / more viral-aggressive).
 
+### Audio production (ALWAYS)
+For ANY voiceover, narration, or generated speech (videos, demos, ads), use **ElevenLabs**.
+Read the key from `~/.config/elevenlabs/api_key` (or env `ELEVENLABS_API_KEY`) — it is stored
+locally and chmod 600; NEVER hardcode or commit the key. Endpoint:
+`POST https://api.elevenlabs.io/v1/text-to-speech/{voice_id}?output_format=mp3_44100_128`
+with header `xi-api-key`, body `{text, model_id:"eleven_turbo_v2_5", voice_settings:{...}}`.
+In Remotion, drop the result in `public/voiceover.mp3` and add `<Audio src={staticFile(...)} />`,
+ducking the music bed to ~0.12 under the voice. Use a brand-appropriate voice; keep narration tight
+and matched to scene timing. Music can be a CC0 bed; voice is always ElevenLabs.
+
 ### Agent split
 Claude: angle, psychology, hook, script, shot list. Codex: any prompt/template system or script-
 generator feature. Antigravity: integrate into the app UI/workflow. Opencode: refactor/clean.
