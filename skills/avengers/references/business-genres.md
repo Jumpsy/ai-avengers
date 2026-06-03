@@ -8,7 +8,8 @@ derives the DNA for anything not listed. Every genre still inherits the universa
 
 ## Universal spine (applies to EVERY genre, always)
 Honesty (zero fabricated stats/reviews/avatars), **no dashes anywhere** (use "to"/comma/period),
-humanizer pass on all copy, real icons (Iconify/Lucide/simple-icons, never emojis), real photos
+humanizer pass on all copy, real icons (Iconify/Lucide/simple-icons, never emojis, never AI-vibe
+glyphs, and NO box/tile around the icon by default per SKILL.md rule 15), real photos
 saved into the project (§2.5 pipeline) instead of gray boxes, deliberate palette where every color
 earns its place (§5), psychology-led structure (§5.5: pain→solution→result, one big promise, trust
 stacking, friction removal, clear 3-second answer), full SEO suite, a11y, mobile-first (375 + 1440),
@@ -239,5 +240,7 @@ client's page.)
 Stock house-and-keys / generic stock people / faceless corporate; PDF menus; walls of text; fake star
 ratings or invented metrics; slow pages (>3s) and non-mobile-first layouts; burying the booking/quote/
 donate CTA below the fold; multiple competing CTAs; default blue-to-purple SaaS gradient on a non-tech
-brand; em/en dashes; emoji-as-icons; sparkle "AI magic" glyphs; one lonely fade as the only motion;
-gray placeholder boxes where a real photo belongs.
+brand; em/en dashes; emoji-as-icons; sparkle "AI magic" glyphs; **every icon wrapped in a rounded
+tinted square/circle tile** (drop the box, put the icon straight on the card in the brand color);
+hand-drawn/mismatched "AI flavor" icons instead of one real icon family; one lonely fade as the only
+motion; gray placeholder boxes where a real photo belongs.

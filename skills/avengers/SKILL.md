@@ -58,11 +58,23 @@ hub — it tells you which teammate and which skill to reach for at each step.
     with real content, subtle borders/shadows, or nothing.
 14. **No fake people or avatars either.** Beyond fake numbers, do not invent fake testimonial
     avatars/initials (no "MK/JD/SR"). Honest proof or none.
-15. **Iconography: use Iconify.** Install `@iconify/react` (+ offline sets like
-    `@iconify-json/lucide`, `@iconify-json/simple-icons`) for 200k+ real, consistent icons.
-    `import { Icon } from "@iconify/react"` then `<Icon icon="lucide:send" />`. Use real brand
-    marks from `simple-icons` for third-party logos (in their brand colors), and a coherent icon
-    family elsewhere. Never hand-roll generic AI-looking glyphs when a real icon exists.
+15. **Iconography: real icons, NO boxes, NEVER AI-vibe-coded glyphs.** Install `@iconify/react`
+    (+ offline sets like `@iconify-json/lucide`, `@iconify-json/simple-icons`) for 200k+ real,
+    consistent icons. `import { Icon } from "@iconify/react"` then `<Icon icon="lucide:send" />`. Use
+    real brand marks from `simple-icons` for third-party logos (in their brand colors), and ONE
+    coherent icon family elsewhere. Three hard rules:
+    (a) **No AI-vibe-coded icons, ever.** Never hand-roll generic AI-looking glyphs (sparkles/"magic"/
+        rounded-blob/gradient-filled), never use emojis as UI icons, and never use an icon that doesn't
+        exist in a real set when a real one exists. Pick a clean line/outline OR solid family and stay
+        in it. A mismatched, hand-drawn, or "AI flavor" icon is an instant slop tell.
+    (b) **DEFAULT TO NO BOX around the icon.** Place the icon directly on the card/section in the brand
+        color (like the human-made reference sites). Do NOT wrap every icon in a rounded square /
+        circle / tile "chip" by reflex. The boxed-icon-in-a-tinted-square look is the #1 AI-template
+        giveaway. A container is allowed ONLY with a real reason (e.g. an icon sitting over a photo
+        needs a solid white/paper chip for legibility), and then it must be SOLID and seamless with
+        zero visible border/seam against its background. When in doubt, remove the box.
+    (c) **Consistent size, weight, and color.** Same stroke width and optical size across a set; color
+        from the palette (usually the brand accent or ink), not a random per-icon color.
 16. **Branded loading animation.** Every product gets a reusable loader built from ITS OWN logo
     (orbital/morph motion, ~1.8s ease-in-out, sizes 18-40px, framer-motion + a CSS fallback,
     light/dark via currentColor, reduced-motion = simple pulse). Use it for the chat "thinking"
