@@ -101,6 +101,17 @@ hub — it tells you which teammate and which skill to reach for at each step.
     the page on a cohesive dark/brand zone (e.g. full-bleed CTA flowing into a dark footer), and give
     every page tasteful MOTION (load entrance, scroll-reveal, a marquee, hover) plus real loading
     SKELETONS (route loading.tsx + image shimmer placeholders).
+19b. **REDESIGNING AN EXISTING / SOMEONE ELSE'S BUSINESS SITE.** Two hard lessons. (a) KEEP THE
+    EXISTING BRAND COLORS. Do NOT introduce a new accent (e.g. "premium gold") onto an established
+    brand, especially a client's or a friend's business. The brand color is theirs. Preserve it and
+    elevate the EXECUTION around it. Change colors only if the owner explicitly asks. (b) "Redesign
+    the whole site" usually means CHANGE THE LAYOUT AND STRUCTURE, not recolor the same skeleton. If
+    the new version keeps the original section order/structure, the user says "it looks exactly the
+    same." Rework the architecture (hero concept, section order, layout language) while keeping the
+    brand. When direction is open, ask ONE question (light vs dark, structure) before the full
+    rebuild. GOTCHA: macOS new-headless Chrome clamps min render width to about 500px, so a 390px
+    `--window-size` screenshot is just a 390 CROP of a 500 render and looks falsely clipped on the
+    right. Verify real overflow with `document.documentElement.scrollWidth` via CDP, not the crop.
 19. **SELF-UPDATING SKILL (meta-rule).** Whenever the user states a new preference, rule, fact,
     standard, agent, product detail, or "I want X every time" that is NOT already captured here,
     ADD IT to this SKILL.md (the right section, or a new one) in the same session, then continue
@@ -263,6 +274,38 @@ Drive them with: `askall "<broadcast>"` · `ask <name> "<task>"` · `route "<tas
 `convo -f` (watch) · `crossreview <file>` · `say` / `need` / `needs` · `clip` / `paste`.
 **Only the LEAD talks to the user**; teammates queue questions with `need`, you relay once.
 
+## 1.5 NEVER-IDLE SWARM — the orchestrator keeps everyone working until DONE
+The swarm's #1 failure mode is agents going idle: one finishes its task, prints a result, and just
+sits there while work remains. **That is on you, the LEAD.** Your job is not to dispatch once and
+wait. Your job is to keep every teammate busy on the critical path until the whole task is DONE and
+VERIFIED. An idle agent with remaining work is a bug you must fix immediately by re-prompting it.
+
+**The supervision loop (run it continuously while the swarm works):**
+1. **Keep a live backlog.** Maintain the task list (TaskCreate/TaskUpdate or a written plan) with
+   every unit of work, its owner, and status. Nothing is "done" until verified against the goal.
+2. **Watch every agent.** Use `convo -f`, and poll each pane directly:
+   `for p in $(tmux list-panes -t agents -F '#{pane_id}'); do tmux capture-pane -t "$p" -p | tail -3; done`
+   An agent showing a shell prompt / "waiting" / a finished summary with no next action = IDLE.
+3. **The moment an agent goes idle, re-prompt it.** Never let it sit. Pick the next backlog item for
+   its strength and `ask <name> "<next task>"`. If the backlog is empty for that agent, give it a
+   VERIFY/IMPROVE task (review another agent's output, write tests, hunt bugs, polish, run the review
+   skills) so it is always adding value, never parked.
+4. **Auto-nudge stuck/quiet agents.** If an agent stalls, asks a question, or output goes quiet,
+   unblock it: answer from the plan, or push `ask <name> "continue. <specific next step>"`. Common
+   nudges: "continue", "keep going, do not stop until X", "what is blocking you, then proceed".
+5. **Re-broadcast the standard when drift appears** (`askall "reminder: <shared rule>"`).
+6. **Loop until the DEFINITION OF DONE is met**, not until agents stop talking. Done = every backlog
+   item complete AND verified (built/tested/screenshotted/reviewed). Only THEN do you let agents rest.
+
+**Hard rules:**
+- Do NOT end your turn or report "done" while any agent is idle and backlog remains. Refill first.
+- Treat "the agent stopped responding" as a prompt to re-prompt, not as completion.
+- Every dispatch carries an explicit finish line + "do not stop until you have done X; reply DONE
+  with evidence when complete." Agents stop early when the finish line is vague.
+- Keep a "next 3 tasks" ready per agent so there is always something to hand over the instant one frees up.
+- For long autonomous runs, drive the loop on a heartbeat (the `/loop` skill or a ScheduleWakeup
+  tick) so you re-check and re-prompt the swarm at a steady interval and it genuinely never stalls.
+
 ## 2. The arsenal — which skill for which job
 Invoke these installed skills (yours or via the right teammate). Pick by task:
 
@@ -291,6 +334,10 @@ the `stitch-*` skills, `enhance-prompt`. Verify UI with `superpowers-chrome` / `
 
 **Words / docs / growth:** `humanizer` + `elements-of-style` (clean, non-AI copy),
 `documentation-generation`/`-standards`, `code-documentation`, the `seo-*` skills, `deep-research`.
+For local-service clients who want more local leads, deploy the ready-built **local SEO automation
+suite** at `~/seo-automation` (schema, location pages, reviews, GBP posts, blog, competitor audit,
+weekly report). When + how: **`references/seo-automation.md`** (pairs with the local-service genre;
+sell quality + reviews + technical hygiene, never spam, never promise "#1 on Google").
 
 **Video / ads:** two engines, pick per job. (a) `remotion-best-practices` — code-driven video with
 Remotion (React → MP4), best for data/UI-accurate, fully-controlled, re-renderable brand video.
