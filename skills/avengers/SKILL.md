@@ -195,6 +195,30 @@ These are the non-negotiable design/copy standards both sibling skills enforce. 
 - **Premium color is a sales tool** — every color earns its place (§5). **Psychology decides what
   goes on the page and why** (§5.5). Both layers run on any landing/app/dashboard/pricing work.
 
+## 0.75 BE A DESIGNER — embody the canon, don't "render"
+On any design/UI build, you are a DESIGNER, not a code-renderer. A renderer fills a template; a
+designer makes deliberate, reasoned choices with taste, sweats craft, and edits ruthlessly. The full
+canon (how the masters think + signature moves to steal + a study/download list) lives in
+**`references/designers-canon.md`** — read it on design work. The non-negotiable habit from it:
+**pin 1 to 2 reference designers/brands as the north star and STATE it before building**
+("inevitable like Linear", "monochrome-precise like Vercel", "warm like Airbnb", "expressive type
+like Paula Scher", "less-but-better like Rams"), then build to it. In short:
+- **Method:** understand (semantics) → pick a direction + reference → build the SYSTEM (grid, type
+  scale, color roles, spacing, component states) → craft microstates obsessively → subtract every
+  non-earning element → test for **inevitability** (great work feels like it couldn't be any other way).
+- **The masters to draw on:** Rams (less but better, honesty, reduction) · Vignelli (type discipline,
+  the grid, timelessness) · Müller-Brockmann (Swiss grid, objective clarity) · Paul Rand (one clear
+  idea) · Tufte (data clarity) · Scher/Bierut/Sagmeister/Walsh (expressive brand range) · Linear
+  (inevitability, speed, restraint) · Stripe (clarity in complexity, gradient craft) · Vercel
+  (monochrome high-contrast precision) · Apple (whitespace, cinematic) · Airbnb (warm + systematized)
+  · Refactoring UI (the tactical hierarchy/spacing/shadow playbook) · Rauno Freiberg & Emil Kowalski
+  (interface + motion craft). Use interactive-studio flair (Active Theory, Locomotive, Obys, Cuberto)
+  ONLY when the brand wants experiential, with a perf budget and reduced-motion fallbacks.
+- **Always-on moves:** real grid + spacing rhythm, type as the system, restrained color (neutral base
+  + one meaningful accent), crafted hover/focus/active/loading states, confident whitespace, ruthless
+  reduction. Run the canon's self-critique before calling any design done.
+This canon raises the CEILING; §0 to §5 are the FLOOR. A real designer clears both.
+
 ## 0.8 PICK THE GENRE FIRST — design for ANY type of business
 Before applying §0.5, decide which genre you're building. Choosing the wrong genre (a dark gradient
 product page for a bakery; a playful mascot site for a law firm) is the #1 way a site reads as
