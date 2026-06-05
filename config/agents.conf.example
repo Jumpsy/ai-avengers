@@ -7,7 +7,6 @@
 # Delete agents you don't have; add any CLI that runs in a terminal.
 # Run them in their auto-approve / no-prompt mode so the team can work unattended.
 
-claude   : claude --dangerously-skip-permissions
 codex    : codex --dangerously-bypass-approvals-and-sandbox
 opencode : opencode
 agy      : agy --dangerously-skip-permissions

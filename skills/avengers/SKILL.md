@@ -2,7 +2,7 @@
 name: avengers
 description: >-
   Single entry point to assemble the AI Avengers — orchestrate the local multi-agent swarm
-  (claude, codex, opencode, antigravity in tmux session `agents`) AND the full installed skill
+  (codex, opencode, antigravity in tmux session `agents`) AND the full installed skill
   arsenal (design, frontend, review, security, testing, performance, docs, SEO, orchestration).
   Use whenever the user wants to use several AIs together, "prompt all the agents", build/ship a
   feature or app, or get TOP-TIER (non "vibe-coded") results. Trigger: /avengers, "use the
@@ -268,11 +268,10 @@ theme or the primary action) before building, then commit. Everything else in §
 | **codex** | `ask codex "…"` | backend, APIs, DB, systems, hard debugging |
 | **antigravity** | `ask antigravity "…"` (alias `agy`) | design, UI/UX, frontend, visuals (Gemini) |
 | **opencode** | `ask opencode "…"` | bulk/parallel/cheap work, boilerplate |
-| **claude (you)** | — | architecture, glue, final review, synthesis |
 
 Drive them with: `askall "<broadcast>"` · `ask <name> "<task>"` · `route "<task>"` ·
 `convo -f` (watch) · `crossreview <file>` · `say` / `need` / `needs` · `clip` / `paste`.
-**Only the LEAD talks to the user**; teammates queue questions with `need`, you relay once.
+**Only the LEAD (active agent) talks to the user**; teammates queue questions with `need`.
 
 ## 1.5 NEVER-IDLE SWARM — the orchestrator keeps everyone working until DONE
 The swarm's #1 failure mode is agents going idle: one finishes its task, prints a result, and just
@@ -582,7 +581,7 @@ values when relevant.
 - Are skeleton loaders, cards, buttons, and gradients all polished?
 
 ### Orchestrator roles for color/design work
-- **Claude (lead):** owns the brand + color *reasoning* — decides the strategy and the three
+- **Lead Agent:** owns the brand + color *reasoning* — decides the strategy and the three
   output blocks above before anyone implements.
 - **Codex:** implements the tokens (CSS vars, Tailwind/shadcn theme).
 - **Antigravity:** integrates the color/UI system across the app's screens and components.
@@ -709,7 +708,7 @@ ducking the music bed to ~0.12 under the voice. Use a brand-appropriate voice; k
 and matched to scene timing. Music can be a CC0 bed; voice is always ElevenLabs.
 
 ### Agent split
-Claude: angle, psychology, hook, script, shot list. Codex: any prompt/template system or script-
+Lead Agent: angle, psychology, hook, script, shot list. Codex: any prompt/template system or script-
 generator feature. Antigravity: integrate into the app UI/workflow. Opencode: refactor/clean.
 Visual QA: judge whether it is actually scroll-stopping, not generic.
 
@@ -720,7 +719,7 @@ member can take on. The lead assigns work to strengths (and to dedicated review 
 ### Core swarm (live CLI teammates)
 | Agent | Address | Identity & job |
 |-------|---------|----------------|
-| **Claude** (lead) | — | Orchestrator. Owns architecture, brand + color reasoning, glue/integration, final synthesis, and the "is this premium / honest / done" call. Talks to the user. |
+| **Lead Agent** | — | Orchestrator (active agent conversing with the user). Owns architecture, brand + color reasoning, glue/integration, final synthesis, and the "is this premium / honest / done" call. Talks to the user. |
 | **Codex** | `ask codex "…"` | Systems engineer. Backend, APIs, DB, hard debugging, and token/theme implementation (CSS vars, Tailwind/shadcn). |
 | **Antigravity** (agy) | `ask agy "…"` | Designer (Gemini). UI/UX, visuals, motion, and integrating the design/color system across screens. |
 | **Opencode** | `ask opencode "…"` | Builder/finisher. Bulk + boilerplate, parallel work, and sweeping inconsistencies (stray colors, off-token values, dead links). |
@@ -751,7 +750,7 @@ A first-class member that makes the work *sell*, not just look good. It owns:
 Run the Business Agent on pricing pages, landing positioning, naming, and any "should we build/charge
 for X" decision. It produces a short **Business Case** (positioning · pricing · differentiation ·
 risks) alongside the design output. Delegate analysis to `ask codex`/research skills + `deep-research`;
-Claude owns the final commercial reasoning.
+The Lead Agent owns the final commercial reasoning.
 
 ## 7. Updating the AI Avengers repo
 This skill is the team's shared brain, version-controlled. After meaningful additions (new rules,
